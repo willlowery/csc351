@@ -4,23 +4,16 @@ import java.util.Map;
 
 public class PrintGraphVisitor implements GraphVisitor {
     @Override
-    public void visitEdge(int x, int y) {
-        System.out.println("Edge (" + x + "," + y + ")");
+    public void visitEdge(int x, int y,SearchContext context) {
+        System.out.printf("visiting edge [%s,%s]%n", x, y);
     }
 
     @Override
-    public void visitVertexEarly(int x) {
-        System.out.println("vertex (" + x + ")");
-
+    public void visitVertexEarly(int x,SearchContext context) {
+        System.out.printf("visiting vertex %s %n", x);
     }
 
     @Override
-    public void visitVertexLate(int x) {
-
-    }
-
-    @Override
-    public void visitParents(Map<Integer, Integer> parents) {
-        System.out.println(parents);
+    public void visitVertexLate(int x,SearchContext context) {
     }
 }

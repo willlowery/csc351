@@ -1,8 +1,6 @@
 package csc351.graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Graph {
@@ -16,7 +14,11 @@ public class Graph {
         this.directed = directed;
     }
 
-    public void insertEdge(int x, int y, boolean directed) {
+    public void insertEdge(int x, int y) {
+        insertEdge(x, y, directed);
+    }
+
+    private void insertEdge(int x, int y, boolean directed) {
         EdgeNode edge = new EdgeNode(y, null);
 
         edges
@@ -29,19 +31,20 @@ public class Graph {
         vertices.add(x);
         vertices.add(y);
 
-        if (directed) {
-            insertEdge(y, x, false);
+        if (!directed) {
+            insertEdge(y, x, true);
         } else {
             numberOfEdges++;
         }
     }
 
     public void traverseBreadthFirst(int startingVertex, GraphVisitor visitor) {
-        //implement breadth first traversal
+//      todo implement this
+
     }
 
     public void traverseDepthFirst(int startingVertex, GraphVisitor visitor) {
-        //implement depth first traversal
+//        todo implement this
     }
 
     @Override
