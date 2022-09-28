@@ -44,7 +44,7 @@ public class Graph {
     }
 
     public void traverseDepthFirst(int startingVertex, GraphVisitor visitor) {
-
+        traverseDepthFirst(startingVertex, visitor, new GraphVisitor.SearchContext(directed));
     }
 
     public Set<Integer> findArticulationPoints() {
