@@ -20,12 +20,17 @@ public interface GraphVisitor {
     }
 
     class SearchContext {
-        private HashSet<Integer> discovered = new HashSet<>();
-        private HashSet<Integer> processed = new HashSet<>();
-        private HashMap<Integer, Integer> parents = new HashMap<>();
-        private HashMap<Integer, Integer> entryTime = new HashMap<>();
-        private HashMap<Integer, Integer> exitTime = new HashMap<>();
+        private final boolean directed;
+        private final HashSet<Integer> discovered = new HashSet<>();
+        private final HashSet<Integer> processed = new HashSet<>();
+        private final HashMap<Integer, Integer> parents = new HashMap<>();
+        private final HashMap<Integer, Integer> entryTime = new HashMap<>();
+        private final HashMap<Integer, Integer> exitTime = new HashMap<>();
         private int time = 0;
+
+        public SearchContext(boolean directed) {
+            this.directed = directed;
+        }
 
         public HashSet<Integer> getDiscovered() {
             return discovered;
@@ -65,14 +70,41 @@ public interface GraphVisitor {
             this.processed.add(v);
         }
 
+        public boolean isRoot(int vertex) {
+            return this.parents.get(vertex) == null;
+        }
+
         public EdgeClass classify(int x, int y) {
-            if (Objects.equals(parents.get(y), x)) return EdgeClass.TREE;
-            if (discovered.contains(y) && !processed.contains(y)) return EdgeClass.BACK;
-            if (processed.contains(y) && entryTime.getOrDefault(y, 0) > entryTime.getOrDefault(x, 0))
-                return EdgeClass.FORWARD;
-            if (processed.contains(y) && entryTime.getOrDefault(y, 0) < entryTime.getOrDefault(x, 0))
-                return EdgeClass.CROSS;
-            return EdgeClass.UNKNOWN;
+            if (directed) {
+                if (Objects.equals(parents.get(y), x)) return EdgeClass.TREE;
+                if (discovered.contains(y) && !processed.contains(y)) return EdgeClass.BACK;
+                if (processed.contains(y) && entryTime.getOrDefault(y, 0) > entryTime.getOrDefault(x, 0))
+                    return EdgeClass.FORWARD;
+                if (processed.contains(y) && entryTime.getOrDefault(y, 0) < entryTime.getOrDefault(x, 0))
+                    return EdgeClass.CROSS;
+                return EdgeClass.UNKNOWN;
+            } else {
+                if (Objects.equals(parents.get(y), x))
+                    return EdgeClass.TREE;
+                else
+                    return EdgeClass.BACK;
+            }
+        }
+
+        public int parent(int vertex) {
+            return parents.getOrDefault(vertex, -1);
+        }
+
+        public int entryTime(int vertex) {
+            return entryTime.getOrDefault(vertex, -1);
+        }
+
+        public boolean processed(int vertex) {
+            return processed.contains(vertex);
+        }
+
+        public boolean discovered(int vertex) {
+            return discovered.contains(vertex);
         }
     }
 }

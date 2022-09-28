@@ -44,7 +44,23 @@ public class Graph {
     }
 
     public void traverseDepthFirst(int startingVertex, GraphVisitor visitor) {
-//        todo implement this
+
+    }
+
+    public Set<Integer> findArticulationPoints() {
+        ArticulationPointVisitor finder = new ArticulationPointVisitor();
+
+        GraphVisitor.SearchContext context = new GraphVisitor.SearchContext(directed);
+        while (!context.getDiscovered().containsAll(vertices)) {
+            Integer vertex = vertices.stream().filter(i -> !context.getDiscovered().contains(i)).findFirst().orElseThrow();
+            traverseDepthFirst(vertex, finder, context);
+        }
+
+        return finder.getArticulationPoints();
+    }
+
+    private void traverseDepthFirst(Integer vertex, GraphVisitor visitor, GraphVisitor.SearchContext context) {
+        // todo implement this
     }
 
     @Override
