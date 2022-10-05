@@ -15,11 +15,15 @@ public class Graph {
     }
 
     public void insertEdge(int x, int y) {
-        insertEdge(x, y, directed);
+        insertEdge(x, y, directed, null);
     }
 
-    private void insertEdge(int x, int y, boolean directed) {
-        EdgeNode edge = new EdgeNode(y, null);
+    public void insertEdge(int x, int y, int weight) {
+        insertEdge(x, y, directed, weight);
+    }
+
+    private void insertEdge(int x, int y, boolean directed, Integer weight) {
+        EdgeNode edge = new EdgeNode(y, weight);
 
         edges
                 .computeIfAbsent(x, key -> new ArrayList<>())
@@ -32,7 +36,7 @@ public class Graph {
         vertices.add(y);
 
         if (!directed) {
-            insertEdge(y, x, true);
+            insertEdge(y, x, true, weight);
         } else {
             numberOfEdges++;
         }
@@ -61,6 +65,30 @@ public class Graph {
 
     private void traverseDepthFirst(Integer vertex, GraphVisitor visitor, GraphVisitor.SearchContext context) {
         // todo implement this
+    }
+
+
+    public PrimResult prim(int start) {
+        // todo implement this
+        return new PrimResult(new HashMap<>(), new HashMap<>());
+    }
+
+    public static class PrimResult {
+        private final HashMap<Integer, Integer> distance;
+        private final HashMap<Integer, Integer> parents;
+
+        public PrimResult(HashMap<Integer, Integer> distance, HashMap<Integer, Integer> parents) {
+            this.distance = distance;
+            this.parents = parents;
+        }
+
+        public HashMap<Integer, Integer> getDistance() {
+            return distance;
+        }
+
+        public HashMap<Integer, Integer> getParents() {
+            return parents;
+        }
     }
 
     @Override
