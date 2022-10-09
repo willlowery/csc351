@@ -73,6 +73,10 @@ public class Graph {
         return new PrimResult(new HashMap<>(), new HashMap<>());
     }
 
+    public List<EdgeNode> findEdges(int vertex){
+        return edges.getOrDefault(vertex, new ArrayList<>());
+    }
+
     public static class PrimResult {
         private final HashMap<Integer, Integer> distance;
         private final HashMap<Integer, Integer> parents;
@@ -104,9 +108,9 @@ public class Graph {
         return "{ 'edges': " + numberOfEdges + ", 'vertices':" + vertices.size() + " 'edges': " + edgeList + "}";
     }
 
-    private static class EdgeNode {
-        Integer y;
-        Integer weight;
+    public static class EdgeNode {
+        public Integer y;
+        public Integer weight;
 
         public EdgeNode(Integer y, Integer weight) {
             this.y = y;
